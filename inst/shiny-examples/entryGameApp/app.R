@@ -9,16 +9,36 @@ ui <- fluidPage(
   titlePanel("Entry Game"),
   sidebarPanel(
     textInput(
-      inputId = "sheet",
-      label = "Enter the ID of the Google Sheet with the output.",
+      inputId = "filename",
+      label = "Enter the filename of the Excel Workbook with the output.",
       value = NULL
     ),
-    actionButton("go", "Load New Responses"),
+    textInput(
+      inputId = "user",
+      label = "Enter the user ID for the OneDrive account with the output.",
+      value = NULL
+    ),
+    textInput(
+      inputId = "team",
+      label = "Enter the team or group ID for the OneDrive account with the output.",
+      value = NULL
+    ),
+    textInput(
+      inputId = "drive",
+      label = "Enter the letter of the local drive for path containing the Excel Workbook with the output.",
+      value = NULL
+    ),
+    textInput(
+      inputId = "subdir",
+      label = "Enter the subdirectory path of the Excel Workbook with the output.",
+      value = NULL
+    ),
     numericInput(
       inputId = "round",
       label = "Enter the round you want to display.",
       value = 1
-    )
+    ),
+    actionButton("go", "Load New Responses")
   ),
   mainPanel(tabsetPanel(
     tabPanel("Equilibrium", tableOutput("equilibrium")),
@@ -33,8 +53,12 @@ ui <- fluidPage(
 # Define server logic
 server <- function(input, output) {
   data <- eventReactive(input$go, {
-    sheet <- input$sheet
-    g <- entryGame(sheet)
+    filename <- input$filename
+    user <- input$user
+    team <- input$team
+    drive <- input$drive
+    subdir <- input$subdir
+    g <- entryGame(filename, user, drive, team, subdir)
     g
   })
   output$equilibrium <- renderTable({

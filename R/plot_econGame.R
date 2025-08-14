@@ -90,51 +90,26 @@ plot.econGame <- function(econGame,
 
   }
   if (econGame$type == 'equilibriumGame') {
-    if (is.null(round)) {
-      for (i in 1:econGame$rounds) {
-        out[[i]] <- ggplot() +
-          geom_step(
-            aes(Demand, Price),
-            econGame$schedules[[i]][-which(duplicated(econGame$schedules[[i]]$Demand, fromLast = TRUE)), ],
-            direction = 'vh',
-            color = 'blue',
-            na.rm = TRUE
-          ) +
-          geom_step(
-            aes(Supply, Price),
-            econGame$schedules[[i]],
-            direction = 'vh',
-            color = 'darkorange',
-            na.rm = TRUE
-          ) +
-          geom_point(aes(quantity, price), econGame$equilibria[[i]]) +
-          lims(x = c(0, max(econGame$schedules[[i]]$Demand)),
-               y = c(0, max(econGame$schedules[[i]]$Price)))
-      }
-      out <- ggarrange(plotlist = out,
-                       nrow = nrow,
-                       ncol = ncol,
-                       ...)
-    } else {
       out <- ggplot() +
         geom_step(
           aes(Demand, Price),
-          econGame$schedules[[round]][-which(duplicated(econGame$schedules[[round]]$Demand, fromLast = TRUE)), ],
+          econGame$schedule[-which(duplicated(econGame$schedule$Demand, fromLast = TRUE)), ],
           direction = 'vh',
           color = 'blue',
           na.rm = TRUE
         ) +
         geom_step(
           aes(Supply, Price),
-          econGame$schedules[[round]],
+          econGame$schedule,
           direction = 'vh',
           color = 'darkorange',
           na.rm = TRUE
         ) +
-        geom_point(aes(quantity, price), econGame$equilibria[[round]]) +
-        lims(x = c(0, max(econGame$schedules[[i]]$Demand)),
-             y = c(0, max(econGame$schedules[[i]]$Price)))
-    }
+        geom_point(
+          aes(econGame$equilibrium$quantity, econGame$equilibrium$price), ) +
+        lims(x = c(0, max(econGame$schedule$Demand)),
+             y = c(0, max(econGame$schedule$Price)))
+
   }
   if (econGame$type == 'entryGame') {
     Corn <- list(NULL)

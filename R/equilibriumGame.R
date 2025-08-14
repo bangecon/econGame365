@@ -18,14 +18,15 @@
 ##' @return \code{grades} returns the aggregated points "won" by each student for the entire activity.
 ##'
 ##' @references Holt, Charles A. (1996). Classroom games: Trading in a pit market. \emph{Journal of Economic Perspectives,} 10(1), pp.193-203.
-##'
+  ##'
 ##' @export
 
 equilibriumGame <-
-  function(sheet,
-           auth = FALSE,
-           names = NULL,
-           email = NULL,
+  function(filename,
+           user,
+           drive = "c",
+           team = NULL,
+           subdir = NULL,
            ...) {
     Rcpp::sourceCpp(
       code = '
@@ -95,78 +96,64 @@ equilibriumGame <-
     )
     # Set up the Google Sheets, read responses, and initialize output objects.
     drive <- paste0(drive, ":/Users/")
-    if(is.null(team)) {
+    if (is.null(team)) {
       team <- "/OneDrive/"
     } else {
       team <- paste0("/OneDrive - ", team, "/")
     }
     path <- paste0(drive, user, team, subdir, filename)
     results <- readxl::read_excel(path)
-    results[, 8:16] <- lapply(results[8:16], as.numeric)
+    results[, 8:11] <- lapply(results[8:11], as.numeric)
     colnames(results) <- make.names(colnames(results))
     results <- results %>%
       replace_na(list(First.Name = "John", Last.Name = "Doe")) %>%
       mutate(First.Name = str_to_title(First.Name),
              Last.Name = str_to_title(Last.Name))
     responses <- nrow(results)
-
-
     results$qi <- 1
     results$Price <- NULL
-    rounds <- max(results$Round)
-    schedules <- list(NULL)
-    equilibria <- list(NULL)
-    for (i in 1:rounds) {
-      # Create the supply and demand schedules for each round
-      schedules[[i]] <-
-        as.data.frame(matrix(
-          nrow = 10,
-          ncol = 3,
-          dimnames = list(NULL, c('Price', 'Demand', 'Supply'))
-        ))
-      schedules[[i]]$Price <- c(1:10)
-      roundresult <- subset(results, Round == i)
-      responses <- nrow(roundresult)
-      for (j in 1:10) {
-        schedules[[i]]$Demand[j] <- nrow(subset(roundresult, Bid >= j))
-        schedules[[i]]$Supply[j] <-
-          nrow(subset(roundresult, Ask <= j))
-      }
-      # Calculate the equilibrium for each round
-      equilibria[[i]] <-
-        as.data.frame(
-          find_optimum(
-            roundresult$Ask,
-            roundresult$qi,
-            roundresult$Bid,
-            roundresult$qi
-          )
-        )
+    schedule <- as.data.frame(matrix(
+      nrow = 10,
+      ncol = 3,
+      dimnames = list(NULL, c('Price', 'Demand', 'Supply'))
+    ))
+    schedule$Price <- c(1:10)
+    responses <- nrow(results)
+    for (i in 1:10) {
+      schedule$Demand[i] <- nrow(subset(results, Bid >= i))
+      schedule$Supply[i] <- nrow(subset(results, Ask <= i))
     }
+    # Calculate the equilibrium for each round
+    equilibrium <- find_optimum(
+      results$Ask, results$qi, results$Bid, results$qi)
+    results$Price <- equilibrium$price
     # Calculate student points.
-    results$Price <- NA
-    for (i in 1:nrow(results)) {
-      results$Price[i] <- equilibria[[results$Round[i]]]$price
-    }
-    results$Points <-
-      I(results$Bid >= results$Price) * (results$Value - results$Price) +
-      I(results$Ask <= results$Price) * (results$Price - results$Value)
-    grades <-
-      aggregate(
-        Points ~ Last.Name + First.Name,
-        data = results,
-        FUN = sum,
-        na.action = na.pass
-      )
+    results$Score <-
+      I(results$Bid >= results$Price) * (results$Benefit - results$Price) +
+      I(results$Ask <= results$Price) * (results$Price - results$Cost)
+    results <- data.frame(
+      First.Name = results$First.Name,
+      Last.Name = results$Last.Name,
+      Benefit = results$Benefit,
+      Cost = results$Cost,
+      Bid = results$Bid,
+      Ask = results$Ask,
+      Price = results$Price,
+      Score = results$Score
+    )
+    grades <- data.frame(
+      First.Name = results$First.Name,
+      Last.Name = results$Last.Name,
+      Score = results$Score
+    )
     out <- list(
       type = "equilibriumGame",
-      results = as.data.frame(results[order(results$Round,
-                                            results$Last.Name,
-                                            results$First.Name), ]),
-      rounds = rounds,
-      schedules = schedules,
-      equilibria = equilibria,
-      grades = as.data.frame(grades[order(grades$Last.Name, grades$First.Name), ])
+      results = as.data.frame(
+        results[order(results$Last.Name, results$First.Name), ]),
+      schedule = schedule,
+      equilibrium = equilibrium,
+      grades = as.data.frame(
+        grades[order(grades$Last.Name, grades$First.Name), ])
     )
     class(out) <- c('econGame', class(out))
     out
