@@ -1,4 +1,4 @@
-library(econGame)
+library(econGame365)
 
 ui <- fluidPage(
   titlePanel("Random Roles"),

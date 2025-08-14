@@ -1,7 +1,7 @@
 #
 # This is a Shiny web application. You can run the application by clicking the 'Run App' button above.
 #
-library(econGame)
+library(econGame365)
 
 # Define UI for application
 ui <- fluidPage(
