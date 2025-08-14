@@ -1,5 +1,5 @@
-Package: econGame
-Title: Tools for in-class game experiments for Principles of Economics
+Package: econGame365
+Title: Tools for in-class game experiments for Principles of Economics using Microsoft365 applications.
 Version: 0.0.1
 Authors@R: 
     person(given = "James",
@@ -12,17 +12,20 @@ Maintainer: James Bang <bangecon@gmail.com>
 Description: This package loads activity data from Microsoft Form submissions 
     to an Excel file; tabulates, scores, and graphs the responses; and writes 
     the grades to a separate Excel file. Supported games include 
-      1.  Market equilibrium game; 
-      2.  Ultimatum game; 
-      3.  Anchoring game;
-      4.  Entry and exit game; 
-      5.  Monopoly license lottery auction game; 
-      6.  Monopoly license all-pay auction game; 
-      7.  Multi-player prisoner's dilemma game; 
-      8.  Stag hunt game; 
-      9.  Rock-paper-scissors; 
-      10. Public good game; 
-      11. Pollution policy game.
+      1. An Invisible Hand Game using Crop Choice
+      2. A Prisoner's Dilemma Game using Pest Control Choice
+      3. A Public Goods Game 
+      4. The Ultimatum Game 
+      5. The Nash Demand Game
+      6. A Cournot Duopoly Game
+      7. A Bertrand Duopoly Game
+      8. A Stackelberg Duopoly Game
+      9. A Market Equilibrium Game
+      10. A Pollution Policy Game
+      11. A Lottery Auction Game using a Monopoly License Lobbying Game
+      12. A Stag Hunt Game 
+      13. A Tragedy of the Commons Game using Cattle Grazing Choice
+      14. A Coordination Game using Coding Language Choice
     All documentation files include links to Google Forms addresses that can be 
     copied and saved. 
 License: use_gpl3_license()
