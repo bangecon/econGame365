@@ -35,7 +35,7 @@ runMarketGameApp <- function(game = NULL) {
                        12. `staghuntGame` two-person stag hunt gmae. \n
                        ")
   }
-  appDir <- system.file("shiny-examples", game, package = "econGame")
+  appDir <- system.file("shiny-examples", game, package = "econGame365")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `econGame`.", call. = FALSE)
   }

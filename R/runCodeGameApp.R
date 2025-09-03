@@ -1,6 +1,6 @@
 #' @export
 runCodeGameApp <- function() {
-  appDir <- system.file("shiny-examples", "codeGameApp", package = "econGame")
+  appDir <- system.file("shiny-examples", "codeGameApp", package = "econGame365")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `econGame`.", call. = FALSE)
   }

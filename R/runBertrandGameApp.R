@@ -1,6 +1,6 @@
 #' @export
 runBertrandGameApp <- function() {
-  appDir <- system.file("shiny-examples", "bertrandGameApp", package = "econGame")
+  appDir <- system.file("shiny-examples", "bertrandGameApp", package = "econGame365")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `econGame`.", call. = FALSE)
   }

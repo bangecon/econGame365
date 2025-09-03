@@ -90,51 +90,26 @@ plot.econGame <- function(econGame,
 
   }
   if (econGame$type == 'equilibriumGame') {
-    if (is.null(round)) {
-      for (i in 1:econGame$rounds) {
-        out[[i]] <- ggplot() +
-          geom_step(
-            aes(Demand, Price),
-            econGame$schedules[[i]][-which(duplicated(econGame$schedules[[i]]$Demand, fromLast = TRUE)), ],
-            direction = 'vh',
-            color = 'blue',
-            na.rm = TRUE
-          ) +
-          geom_step(
-            aes(Supply, Price),
-            econGame$schedules[[i]],
-            direction = 'vh',
-            color = 'darkorange',
-            na.rm = TRUE
-          ) +
-          geom_point(aes(quantity, price), econGame$equilibria[[i]]) +
-          lims(x = c(0, max(econGame$schedules[[i]]$Demand)),
-               y = c(0, max(econGame$schedules[[i]]$Price)))
-      }
-      out <- ggarrange(plotlist = out,
-                       nrow = nrow,
-                       ncol = ncol,
-                       ...)
-    } else {
       out <- ggplot() +
         geom_step(
           aes(Demand, Price),
-          econGame$schedules[[round]][-which(duplicated(econGame$schedules[[round]]$Demand, fromLast = TRUE)), ],
+          econGame$schedule[-which(duplicated(econGame$schedule$Demand, fromLast = TRUE)), ],
           direction = 'vh',
           color = 'blue',
           na.rm = TRUE
         ) +
         geom_step(
           aes(Supply, Price),
-          econGame$schedules[[round]],
+          econGame$schedule,
           direction = 'vh',
           color = 'darkorange',
           na.rm = TRUE
         ) +
-        geom_point(aes(quantity, price), econGame$equilibria[[round]]) +
-        lims(x = c(0, max(econGame$schedules[[i]]$Demand)),
-             y = c(0, max(econGame$schedules[[i]]$Price)))
-    }
+        geom_point(
+          aes(econGame$equilibrium$quantity, econGame$equilibrium$price), ) +
+        lims(x = c(0, max(econGame$schedule$Demand)),
+             y = c(0, max(econGame$schedule$Price)))
+
   }
   if (econGame$type == 'entryGame') {
     Corn <- list(NULL)
@@ -249,74 +224,6 @@ plot.econGame <- function(econGame,
         color = 'blue',
         width = 0.2
       )
-  }
-  if (econGame$type == 'entryGame') {
-    Corn <- list(NULL)
-    Soybeans <- list(NULL)
-    out <- list(NULL)
-    if (is.null(round)) {
-      for (i in 1:econGame$rounds) {
-        Corn[[i]] <- ggplot() +
-          xlim(0, (econGame$equilibria$N[[i]] / 2) + 10) + xlab("Corn") +
-          ylim(0, (econGame$equilibria$N[[i]] / 2) + 10) + ylab("Price") +
-          geom_function(
-            fun = function(x)
-              (econGame$equilibria$N[[i]] / 2) +  6 - x,
-            color = 'blue'
-          ) +
-          geom_vline(xintercept = econGame$equilibria$Q_c[[i]],
-                     color = 'darkorange') +
-          geom_hline(yintercept = 4, color = 'darkorange') +
-          geom_hline(yintercept = econGame$equilibria$P_c[[i]]) +
-          geom_point(aes(econGame$equilibria$Q_c[[i]], econGame$equilibria$P_c[[i]]))
-        Soybeans[[i]] <- ggplot() +
-          xlim(0, (econGame$equilibria$N[[i]] / 2) + 10) + xlab("Soybeans") +
-          ylim(0, (econGame$equilibria$N[[i]] / 2) + 10) + ylab("Price") +
-          geom_function(
-            fun = function(x)
-              (econGame$equilibria$N[[i]] / 2) + 10 - x,
-            color = 'blue'
-          ) +
-          geom_vline(xintercept = econGame$equilibria$Q_s[[i]],
-                     color = 'darkorange') +
-          geom_hline(yintercept = 10, color = 'darkorange') +
-          geom_hline(yintercept = econGame$equilibria$P_s[[i]]) +
-          geom_point(aes(econGame$equilibria$Q_s[[i]], econGame$equilibria$P_s[[i]]))
-      }
-      plots <- c(Corn, Soybeans)
-    } else {
-      Corn <- ggplot() +
-        xlim(0, (econGame$equilibria$N[[round]] / 2) + 10) + xlab("Corn") +
-        ylim(0, (econGame$equilibria$N[[round]] / 2) + 10) + ylab("Price") +
-        geom_function(
-          fun = function(x)
-            (econGame$equilibria$N[[round]] / 2) +  6 - x,
-          color = 'blue'
-        ) +
-        geom_vline(xintercept = econGame$equilibria$Q_c[[round]],
-                   color = 'darkorange') +
-        geom_hline(yintercept = 4, color = 'darkorange') +
-        geom_hline(yintercept = econGame$equilibria$P_c[[round]]) +
-        geom_point(aes(econGame$equilibria$Q_c[[round]], econGame$equilibria$P_c[[round]]))
-      Soybeans <- ggplot() +
-        xlim(0, (econGame$equilibria$N[[round]] / 2) + 10) + xlab("Soybeans") +
-        ylim(0, (econGame$equilibria$N[[round]] / 2) + 10) + ylab("Price") +
-        geom_function(
-          fun = function(x)
-            (econGame$equilibria$N[[round]] / 2) + 10 - x,
-          color = 'blue'
-        ) +
-        geom_vline(xintercept = econGame$equilibria$Q_s[[round]],
-                   color = 'darkorange') +
-        geom_hline(yintercept = 10, color = 'darkorange') +
-        geom_hline(yintercept = econGame$equilibria$P_s[[round]]) +
-        geom_point(aes(econGame$equilibria$Q_s[[round]], econGame$equilibria$P_s[[round]]))
-      plots <- list(Corn, Soybeans)
-    }
-    out <- ggarrange(plotlist = plots,
-                     nrow = 2,
-                     ncol = ncol,
-                     ...)
   }
   return(out)
 }
