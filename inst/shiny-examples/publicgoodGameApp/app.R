@@ -15,13 +15,13 @@ ui <- fluidPage(
     textInput(
       inputId = "user",
       label = "Enter the user ID for the OneDrive account with the output.",
-      value = NULL
+      value = "jb0616165"
     ),
     textInput(
       inputId = "team",
       label =
         "Enter the team/group ID for the OneDrive account with the output.",
-      value = NULL
+      value = "sau.edu"
     ),
     textInput(
       inputId = "drive",
