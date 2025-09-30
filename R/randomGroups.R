@@ -32,6 +32,7 @@ randomGroups <- function(filename,
   path <- paste0(drive, ":/Users/", user, team, subdir, filename)
   studentList <- readxl::read_excel(path)
   colnames(studentList) <- make.names(colnames(studentList))
+  studentList <- studentList[, c("First.Name", "Last.Name")]
   studentList$First.Name <- make.names(studentList$First.Name)
   studentList$Last.Name <- make.names(studentList$Last.Name)
   studentList <- studentList %>%

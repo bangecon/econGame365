@@ -43,7 +43,7 @@ ultimatumGame <- function(resultsFilename,
       subdir = subdir,
       roleLabs = roleLabs,
       seed = seed
-    )$wide
+    )
     drive <- paste0(drive, ":/Users/")
     if (is.null(team)) {
       team <- "/OneDrive/"
@@ -60,6 +60,7 @@ ultimatumGame <- function(resultsFilename,
       mutate(First.Name = str_to_title(First.Name),
              Last.Name = str_to_title(Last.Name))
     results <- as.data.frame(results)
+    results <- merge(roles$long, results, by = c("First.Name", "Last.Name"))
     results <-  results[order(results$First.Name, results$Last.Name), ]
     ProposerResults <- subset(results, Role == "Proposer")[, c(
       "First.Name", "Last.Name", "Role", "Offer")]
@@ -70,7 +71,7 @@ ultimatumGame <- function(resultsFilename,
     colnames(ResponderResults) <-
       c("First.Name.2", "Last.Name.2", "Role.2", "Response")
     resultsWide <- merge(
-      roles,
+      roles$wide,
       results[, which(names(results) %in% c(
         "First.Name", "Last.Name", "Role", "Offer"))],
       by.x = c("First.Name.1", "Last.Name.1", "Role.1"),
