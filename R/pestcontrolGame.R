@@ -173,8 +173,6 @@ pestcontrolGame <-
       )
       colnames(resultsWide)[7:8] <- c("Strategy.1", "Strategy.2")
     }
-
-
     resultsWide$Outcome <-
       paste0(resultsWide$Strategy.1, "-", resultsWide$Strategy.2)
     resultsWide$Score.1 <- ifelse(
@@ -206,9 +204,6 @@ pestcontrolGame <-
       Score = c(resultsWide$Score.1, resultsWide$Score.2)
     )
     results <- results[order(results$Last.Name), ]
-
-
-
     payoffMatrix <- matrix(
       c(paste0("(",payoff[1], ",", payoff[1], ")"),
         paste0("(",payoff[2], ",", payoff[3], ")"),
