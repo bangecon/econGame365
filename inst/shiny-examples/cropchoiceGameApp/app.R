@@ -16,7 +16,6 @@ ui <- fluidPage(
       inputId = "rolesFilename",
       label = "Enter the filename of the workbook with the Student Names.",
       value = "Crop Choice Game Student Partners.xlsx"
-=======
       value = "StudentList.xlsx"
     ),
     textInput(
