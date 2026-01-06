@@ -94,7 +94,7 @@ equilibriumGame <-
     }
                     '
     )
-    # Set up the Google Sheets, read responses, and initialize output objects.
+    # Set up the directory path, read responses, and initialize output objects.
     drive <- paste0(drive, ":/Users/")
     if (is.null(team)) {
       team <- "/OneDrive/"

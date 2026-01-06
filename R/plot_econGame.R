@@ -109,7 +109,6 @@ plot.econGame <- function(econGame,
           aes(econGame$equilibrium$quantity, econGame$equilibrium$price), ) +
         lims(x = c(0, max(econGame$schedule$Demand)),
              y = c(0, max(econGame$schedule$Price)))
-
   }
   if (econGame$type == 'entryGame') {
     Corn <- list(NULL)
@@ -183,7 +182,7 @@ plot.econGame <- function(econGame,
     out <- ggplot() +
       geom_step(
         aes(Demand, Price),
-        econGame$marketSchedule[-which(duplicated(econGame$marketSchedule$Demand, fromLast = TRUE)), ],
+        econGame$marketSchedule,
         direction = 'vh',
         color = 'blue',
         na.rm = TRUE
