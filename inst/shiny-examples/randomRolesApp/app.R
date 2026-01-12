@@ -6,18 +6,18 @@ ui <- fluidPage(
     textInput(
       inputId = "filename",
       label = "Enter the filename of the Excel Workbook with the output.",
-      value = NULL
+      value = "StudentList.xlsx"
     ),
     textInput(
       inputId = "user",
       label = "Enter the user ID for the OneDrive account with the output.",
-      value = NULL
+      value = "jb0616165"
     ),
     textInput(
       inputId = "team",
       label =
         "Enter the team or group ID for the OneDrive account with the output.",
-      value = NULL
+      value = "sau.edu"
     ),
     textInput(
       inputId = "drive",

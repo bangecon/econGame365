@@ -15,7 +15,7 @@ ui <- fluidPage(
     textInput(
       inputId = "rolesFilename",
       label = "Enter the filename of the workbook with the Student Names.",
-      value = "Ultimatum Game Student Partners.xlsx"
+      value = "StudentList.xlsx"
     ),
     textInput(
       inputId = "user",
