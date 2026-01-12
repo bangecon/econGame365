@@ -37,7 +37,8 @@ randomGroups <- function(filename,
   studentList <- studentList %>%
     replace_na(list(First.Name = "John", Last.Name = "Doe")) %>%
     mutate(First.Name = str_to_title(First.Name),
-           Last.Name = str_to_title(Last.Name))
+           Last.Name = str_to_title(Last.Name)) %>%
+    arrange(Last.Name, First.Name)
   set.seed(seed)
   studentList$Group <- runif(nrow(studentList))
   studentList <- studentList %>%
