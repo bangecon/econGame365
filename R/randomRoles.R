@@ -49,7 +49,7 @@ randomRoles <- function(filename,
     mutate(Role = factor(rank(Rand) / responses <= 0.5,
                          labels = c(roleLabs[1], roleLabs[2])))
   out.long <- studentList[, c("First.Name", "Last.Name", "Role")] %>%
-    arrange(First.Name, Last.Name, Role) %>%
+    arrange(Last.Name, First.Name, Role) %>%
     as.data.frame()
   out.first <- studentList[, c("First.Name", "Last.Name", "Role", "Rand")] %>%
     filter(Role == roleLabs[1]) %>%
@@ -59,7 +59,8 @@ randomRoles <- function(filename,
     filter(Role == roleLabs[2]) %>%
     arrange(Rand)
   colnames(out.second) <- c("First.Name.2", "Last.Name.2", "Role.2", "Rand.2")
-  out.wide <- cbind(out.first[, -4], out.second[, -4]) |>
+  out.wide <- cbind(out.first[, -4], out.second[, -4]) %>%
+    arrange(Last.Name.1, First.Name.1) %>%
     as.data.frame()
   out <- list(
     long = out.long,
