@@ -42,7 +42,7 @@ nashdemandGame <- function(resultsFilename,
       team = team,
       subdir = subdir,
       seed = seed
-    )
+    )$long[, c("First.Name", "Last.Name", "Group", "Member")]
     if (is.null(team)) {
       team <- "/OneDrive/"
     } else {
@@ -57,7 +57,9 @@ nashdemandGame <- function(resultsFilename,
       replace_na(list(First.Name = "John", Last.Name = "Doe")) %>%
       mutate(First.Name = str_to_title(First.Name),
              Last.Name = str_to_title(Last.Name))
-    results <- merge(roles$long, results, by = c("First.Name", "Last.Name"))
+    results <-
+      as.data.frame(results)[, c("First.Name", "Last.Name", "Demand")]
+    results <- merge(roles, results, by = c("First.Name", "Last.Name"))
     results <-  results[order(results$Group, results$Member), ]
     results1 <- subset(results, Member == 1)[, c(
       "First.Name", "Last.Name", "Demand")]
