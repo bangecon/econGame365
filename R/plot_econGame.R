@@ -78,9 +78,10 @@ plot.econGame <- function(econGame,
   }
   if (econGame$type == 'bertrandGame') {
     out <- ggplot(econGame$results) +
-      geom_histogram(aes(Price), fill = 'darkorange', alpha = 0.3, bins = 8, ...) +
-      geom_histogram(aes(Market.Price), fill = 'blue', alpha = 0.3, bins = 8, ...) +
-      scale_fill_manual(values = c('darkorange', 'blue'), breaks = c("Student Price", "Market Price"))
+      geom_histogram(aes(Price, fill = 'Student Price'), alpha = 0.3, bins = 8, ...) +
+      geom_histogram(aes(Market.Price, fill = 'Market Price'), alpha = 0.3, bins = 8, ...) +
+      scale_fill_manual(values = c('Student Price' = 'darkorange', 'Market Price' = 'blue'),
+                        breaks = c("Student Price", "Market Price"))
   }
   if (econGame$type == 'stackelbergGame') {
     out <- ggplot(econGame$outcomes) +
