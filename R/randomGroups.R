@@ -54,8 +54,8 @@ randomGroups <- function(filename,
   studentListWide$Member.1 <- 1
   studentListWide$Member.2 <- 2
   out <- list(
-    long = studentList,
-    wide = studentListWide
+    long = studentList[, c("First.Name", "Last.Name", "Group", "Member")],
+    wide = studentListWide[, c("First.Name.1", "First.Name.2", "Last.Name.1", "Last.Name.2", "Group.1", "Group.2", "Member.1", "Member.2")]
   )
   out
 }
