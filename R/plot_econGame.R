@@ -73,7 +73,8 @@ plot.econGame <- function(econGame,
   if (econGame$type %in% c('cournotGame', 'cattleGame')) {
     out <- ggplot() +
       geom_bar(aes(x = Outcome, y = after_stat(prop), group = 1),
-               econGame$results, stat = 'count', color = 'blue', fill = 'darkorange')
+               econGame$results, stat = 'count', color = 'blue', fill = 'darkorange')+
+      theme(legend.position = "bottom")
 
   }
   if (econGame$type == 'bertrandGame') {
@@ -81,7 +82,8 @@ plot.econGame <- function(econGame,
       geom_histogram(aes(Price, fill = 'Student Price'), alpha = 0.3, bins = 8, ...) +
       geom_histogram(aes(Market.Price, fill = 'Market Price'), alpha = 0.3, bins = 8, ...) +
       scale_fill_manual(values = c('Student Price' = 'darkorange', 'Market Price' = 'blue'),
-                        breaks = c("Student Price", "Market Price"))
+                        breaks = c("Student Price", "Market Price")) +
+      theme(legend.position = "bottom")
   }
   if (econGame$type == 'stackelbergGame') {
     out <- ggplot(econGame$outcomes) +
