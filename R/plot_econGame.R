@@ -78,14 +78,14 @@ plot.econGame <- function(econGame,
   }
   if (econGame$type == 'bertrandGame') {
     out <- ggplot(econGame$results) +
-      geom_bar(aes(x = Price, y = after_stat(prop)), fill = 'darkorange',
+      geom_histogram(aes(x = Price, y = after_stat(prop)), fill = 'darkorange',
                alpha = 0.3, ...) +
-      geom_bar(aes(x = Market.Price, y = after_stat(prop)), fill = 'blue',
+      geom_histogram(aes(x = Market.Price, y = after_stat(prop)), fill = 'blue',
                alpha = 0.3, ...)
   }
   if (econGame$type == 'stackelbergGame') {
     out <- ggplot() +
-      geom_bar(aes(x = outcomes, y = after_stat(prop), group = 1),
+      geom_histogram(aes(x = outcomes, y = after_stat(prop), group = 1),
                econGame$outcomes, stat = 'count', color = 'blue', fill = 'darkorange')
 
   }
