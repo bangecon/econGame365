@@ -103,7 +103,7 @@ equilibriumGame <-
     }
     path <- paste0(drive, user, team, subdir, filename)
     results <- readxl::read_excel(path)
-    results[, 8:11] <- lapply(results[8:11], as.numeric)
+    results[, c("Benefit", "Cost", "Bid", "Ask")] <- lapply(results[c("Benefit", "Cost", "Bid", "Ask")], as.numeric)
     colnames(results) <- make.names(colnames(results))
     results <- results %>%
       replace_na(list(First.Name = "John", Last.Name = "Doe")) %>%
